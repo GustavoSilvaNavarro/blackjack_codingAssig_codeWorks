@@ -27,20 +27,87 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0px 10px;
 }
 
 .cardContainer {
     border-radius: 1rem;
-    padding: 0.75rem;
-    background-color: #F4F6F6;
+    background-image: url('https://res.cloudinary.com/dukuzakaw/image/upload/e_blur:100/v1658943621/codeWorkAssigment/deck_nzuydq.webp');
+}
+
+.cardContainer__shadow {
+    border-radius: 1rem;
+    width: 100%;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .cardContainer__titles {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin: 0.5rem 0.6rem;
+    margin-bottom: 1rem;
 }
 
+.cardContainer__titles > h1 {
+    font-size: 2rem;
+    color: #003566;
+    font-weight: bolder;
+}
+
+.cardContainer__titles > p {
+    color: #004e98;
+    font-size: 16px;
+}
+
+.cardContainer__infoPlayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0.5rem 0.6rem;
+}
+
+.cardContainer__infoPlayer > input[type="text"] {
+    padding: 5px 2px;
+    border: none;
+    border-bottom: 1px solid #7f8c8d;
+    background-color: transparent;
+    margin-bottom: 0.8rem;
+    font-size: 18px;
+    caret-color: #0466c8;
+    font-weight: bold;
+    color: #024;
+    transition: border-bottom 400ms; /* taken from w3school */
+}
+
+.cardContainer__infoPlayer > input::placeholder {
+    color: #386fa4;
+}
+
+.cardContainer__infoPlayer > input:hover {
+    border-bottom: 1px solid #001845;
+}
+
+.cardContainer__infoPlayer--button {
+    margin: 0.25rem 0.125rem;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: transparent;
+    color: #001f54;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    border: 2px solid #001f54;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    transition: all 0.4s ease;
+}
+
+.cardContainer__infoPlayer--button:hover {
+    background-color: #001f54;
+    color: white;
+}
 
 
 
