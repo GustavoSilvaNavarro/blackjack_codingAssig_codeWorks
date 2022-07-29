@@ -7,7 +7,7 @@
 }
 
 /* GLOBAL CONTAINER */
-.globalContainer {
+.globalContainer, .gameContainer {
     width: 100%;
 }
 
@@ -18,6 +18,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    display: none;
 }
 
 .shadowContainer {
@@ -109,14 +110,263 @@
     color: white;
 }
 
-
-
-
-
-
-
-
 /* GAME CONTAINER */
-.gameContainer {
-    display: none;
+.blackjackBoard {
+    height: 100vh;
+    background-image: url('https://res.cloudinary.com/dukuzakaw/image/upload/v1659014608/codeWorkAssigment/bjTable_cntpuy.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.blackjackBoard__topSection {
+    display: flex;
+    justify-content: center;
+}
+
+.topSection__titles {
+    margin: 1rem;
+}
+
+.topSection__titles > h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.topSections__statusGame {
+    display: flex;
+    justify-content: center;
+}
+
+.topSections__statusGame > p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #003566;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 2px 12px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.gameTable__players {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.gameTable__players > div {
+    display: flex;
+    flex: 1;
+    /* justify-content: center; */
+}
+
+.gameTable__user {
+    border-right: 1px solid #000814;
+    display: flex;
+    flex-direction: column;
+}
+
+.gameTable__computer {
+    border-left: 1px solid #000814;
+    display: flex;
+    flex-direction: column;
+}
+
+.gameTableUser__score, .gameTableDealer__score {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.gameTableUser__score > h3, .gameTableDealer__score > h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.gameTableUser__score > p, .gameTableDealer__score > p {
+    color: white;
+    font-size: 22px;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 0.5rem;
+    border-radius: 100px;
+}
+
+.gameTableUser__board, .gameTableDealer__board {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.gameTableUser__board > img, .gameTableDealer__board > img {
+    padding: 5px;
+    width: 20%;
+}
+
+.blackjackBoard__controllers {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boardControllers__statistics {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.boardControllers__statistics > div {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    border-radius: 25px;
+}
+
+.boardControllers__statistics--wins {
+    background-color: rgba(112, 224, 0, 0.8);
+
+}
+
+.boardControllers__statistics--wins:hover {
+    background-color: rgba(112, 224, 0, 0.2);
+    color: #70E000;
+    transition: all 0.4s ease;
+
+}
+
+.boardControllers__statistics--looses {
+    background-color: rgba(164, 22, 26, 0.8);
+
+}
+
+.boardControllers__statistics--looses:hover {
+    background-color: rgba(164, 22, 26, 0.2);
+    color: #A4161A;
+    transition: all 0.4s ease;
+}
+
+.boardControllers__statistics--draws {
+    background-color: rgba(255, 218, 10, 0.8);
+
+}
+
+.boardControllers__statistics--draws:hover {
+    background-color: rgba(255, 218, 10, 0.2);
+    color: #FFDA0A;
+    transition: all 0.4s ease;
+
+}
+
+.boardControllers__statistics--wins > span,
+.boardControllers__statistics--wins > p,
+.boardControllers__statistics--looses > span,
+.boardControllers__statistics--looses > p,
+.boardControllers__statistics--draws > span,
+.boardControllers__statistics--draws > p {
+    text-align: center;
+}
+
+.boardControllers__buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.boardControllers__buttons > button {
+    width: 100px;
+    padding: 0.5rem 0.7rem;
+    border-radius: 25px;
+    text-decoration: none;
+    margin: 0.25rem 0.125rem;
+    outline: none;
+}
+
+.boardControllers__buttons--hit {
+    cursor: pointer;
+    color: #03045e;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #03045e;
+    background-color: rgba(2, 62, 138, 0.1);
+    box-shadow: 5px 10px 20px rgba(2, 62, 138, 0.2) inset;
+}
+
+.boardControllers__buttons--hit:hover {
+    color: #fff;
+    border: 3px solid #03045e;
+    background-color: #03045e;
+    transition: all 0.4s ease;
+}
+
+.boardControllers__buttons--stand {
+    cursor: pointer;
+    color: #780000;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #780000;
+    background-color: rgba(193, 18, 31, 0.1);
+    box-shadow: 5px 10px 20px rgba(193, 18, 31, 0.2) inset;
+}
+
+.boardControllers__buttons--stand:hover {
+    color: #fff;
+    border: 3px solid #780000;
+    background-color: #780000;
+    transition: all 0.4s ease;
+}
+
+.boardControllers__buttons--deal {
+    cursor: pointer;
+    color: #495057;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #495057;
+    background-color: rgba(173, 181, 189, 0.1);
+    box-shadow: 5px 10px 20px rgba(173, 181, 189, 0.2) inset;
+}
+
+.boardControllers__buttons--deal:hover {
+    color: #fff;
+    border: 3px solid #495057;
+    background-color: #495057;
+    transition: all 0.4s ease;
 }

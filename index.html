@@ -29,8 +29,63 @@
                 </div>
             </div>
         </section>
+
         <main class="gameContainer">
-            <h1>Aqui esta el juego</h1>
+            <div class="blackjackBoard">
+                <section class="blackjackBoard__topSection">
+                    <div class="topSection__titles">
+                        <h1>Welcome <span>Gustavo Silva</span></h1>
+                        <div class="topSections__statusGame">
+                            <p>Status Game: <span>Let's Play</span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="blackjackBoard__gameTable">
+                    <div class="gameTable__players">
+                        <div class="gameTable__user">
+                            <div class="gameTableUser__score">
+                                <h3>Gustavo Silva</h3>
+                                <p>19</p>
+                            </div>
+                            <div class="gameTableUser__board">
+
+                            </div>
+                        </div>
+                        <div class="gameTable__computer">
+                            <div class="gameTableDealer__score">
+                                <h3>Dealer</h3>
+                                <p>21</p>
+                            </div>
+                            <div class="gameTableDealer__board">
+                                <img src="./public/cards/2.jpg" alt="2" />
+                                <img src="./public/cards/K.jpg" alt="K" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blackjackBoard__controllers">
+                        <div class="boardControllers__statistics">
+                            <div class="boardControllers__statistics--wins">
+                                <span>0</span>
+                                <p>Wins</p>
+                            </div>
+                            <div class="boardControllers__statistics--looses">
+                                <span>0</span>
+                                <p>Looses</p>
+                            </div>
+                            <div class="boardControllers__statistics--draws">
+                                <span>0</span>
+                                <p>Draws</p>
+                            </div>
+                        </div>
+                        <div class="boardControllers__buttons">
+                            <button class="boardControllers__buttons--hit">HIT</button>
+                            <button class="boardControllers__buttons--stand">STAND</button>
+                            <button class="boardControllers__buttons--deal">DEAL</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
     </section>
 </body>
