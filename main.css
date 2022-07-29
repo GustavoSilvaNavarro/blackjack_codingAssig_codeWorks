@@ -122,6 +122,7 @@
 .blackjackBoard__topSection {
     display: flex;
     justify-content: center;
+    margin-bottom: 1rem;
 }
 
 .topSection__titles {
@@ -149,35 +150,6 @@
     border-radius: 5px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .gameTable__players {
     width: 100%;
     display: flex;
@@ -188,19 +160,22 @@
 .gameTable__players > div {
     display: flex;
     flex: 1;
-    /* justify-content: center; */
 }
 
 .gameTable__user {
     border-right: 1px solid #000814;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    height: 55vh;
 }
 
 .gameTable__computer {
     border-left: 1px solid #000814;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    height: 55vh;
 }
 
 .gameTableUser__score, .gameTableDealer__score {
@@ -240,6 +215,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
 }
 
 .boardControllers__statistics {
@@ -258,11 +236,11 @@
     font-weight: bold;
     padding: 0.3rem 0.8rem;
     border-radius: 25px;
+    margin: 0.25rem 0.125rem;
 }
 
 .boardControllers__statistics--wins {
     background-color: rgba(112, 224, 0, 0.8);
-
 }
 
 .boardControllers__statistics--wins:hover {
@@ -292,7 +270,6 @@
     background-color: rgba(255, 218, 10, 0.2);
     color: #FFDA0A;
     transition: all 0.4s ease;
-
 }
 
 .boardControllers__statistics--wins > span,
