@@ -13,7 +13,7 @@
 </head>
 <body>
     <section class="globalContainer">
-        <section class="welcomeContainer">
+        <section id="containerWelcome" class="welcomeContainer">
             <div class="shadowContainer">
                 <div class="cardContainer">
                     <div class="cardContainer__shadow">
@@ -21,22 +21,27 @@
                             <h1>Welcome to Blackjack Game</h1>
                             <p>Please, write your name!</p>
                         </div>
-                        <div class="cardContainer__infoPlayer">
-                            <input type="text" placeholder="Player's Name..." maxlength="60" autofocus required >
-                            <button type="button" class="cardContainer__infoPlayer--button">Start</button>
-                        </div>
+                        <form id="submitPlayersName">
+                            <div class="cardContainer__infoPlayer">
+                                <div class="playerNameField">
+                                    <input type="text" placeholder="Player's Name..." id="playerNameInput" maxlength="60" autofocus required />
+                                    <p id="validateField" class="validationField hideElement">Field can not be empty, has numbers and must have between 3 to 60 characters*</p>
+                                </div>
+                                <button class="cardContainer__infoPlayer--button">Start</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </section>
 
-        <main class="gameContainer">
+        <main id="blackjackGame" class="gameContainer removeContainer">
             <div class="blackjackBoard">
                 <section class="blackjackBoard__topSection">
                     <div class="topSection__titles">
-                        <h1>Welcome <span>Gustavo Silva</span></h1>
+                        <h1>Welcome <span class="playerName">Player</span></h1>
                         <div class="topSections__statusGame">
-                            <p>Status Game: <span>Let's Play</span></p>
+                            <p>Status Game: <span id="statusGame">Let's Play</span></p>
                         </div>
                     </div>
                 </section>
@@ -45,44 +50,42 @@
                     <div class="gameTable__players">
                         <div class="gameTable__user">
                             <div class="gameTableUser__score">
-                                <h3>Gustavo Silva</h3>
-                                <p>19</p>
+                                <h3 class="playerName">Player</h3>
+                                <p id="playerCardAmount">00</p>
                             </div>
-                            <div class="gameTableUser__board">
-                                <img src="./public/cards/2.jpg" alt="2" />
-                                <img src="./public/cards/K.jpg" alt="K" />
+                            <div id="playerGameBoard" class="gameTableUser__board">
+
                             </div>
                         </div>
                         <div class="gameTable__computer">
                             <div class="gameTableDealer__score">
                                 <h3>Dealer</h3>
-                                <p>21</p>
+                                <p id="dealerCardAmount">00</p>
                             </div>
-                            <div class="gameTableDealer__board">
-                                <img src="./public/cards/2.jpg" alt="2" />
-                                <img src="./public/cards/K.jpg" alt="K" />
+                            <div id="dealerGameBoard" class="gameTableDealer__board">
+
                             </div>
                         </div>
                     </div>
                     <div class="blackjackBoard__controllers">
                         <div class="boardControllers__statistics">
                             <div class="boardControllers__statistics--wins">
-                                <span>0</span>
+                                <span id="playerWins">00</span>
                                 <p>Wins</p>
                             </div>
                             <div class="boardControllers__statistics--looses">
-                                <span>0</span>
+                                <span id="playerLooses">00</span>
                                 <p>Looses</p>
                             </div>
                             <div class="boardControllers__statistics--draws">
-                                <span>0</span>
+                                <span id="playerDraws">00</span>
                                 <p>Draws</p>
                             </div>
                         </div>
                         <div class="boardControllers__buttons">
-                            <button class="boardControllers__buttons--hit">HIT</button>
-                            <button class="boardControllers__buttons--stand">STAND</button>
-                            <button class="boardControllers__buttons--deal">DEAL</button>
+                            <button id="boardHitButton" class="boardControllers__buttons--hit">HIT</button>
+                            <button id="boardStandButton" class="boardControllers__buttons--stand">STAND</button>
+                            <button id="boardDealButton" class="boardControllers__buttons--deal">DEAL</button>
                         </div>
                     </div>
                 </section>
