@@ -51,6 +51,7 @@
                         <div class="gameTable__user">
                             <div class="gameTableUser__score">
                                 <h3 class="playerName">Player</h3>
+                                <p id="matchStatusPlayer" class="removeContainer">Blackjack</p>
                                 <p id="playerCardAmount">00</p>
                             </div>
                             <div id="playerGameBoard" class="gameTableUser__board">
@@ -60,6 +61,7 @@
                         <div class="gameTable__computer">
                             <div class="gameTableDealer__score">
                                 <h3>Dealer</h3>
+                                <p id="matchStatusDealer" class="removeContainer">Blackjack</p>
                                 <p id="dealerCardAmount">00</p>
                             </div>
                             <div id="dealerGameBoard" class="gameTableDealer__board">
@@ -85,7 +87,7 @@
                         <div class="boardControllers__buttons">
                             <button id="boardHitButton" class="boardControllers__buttons--hit">HIT</button>
                             <button id="boardStandButton" class="boardControllers__buttons--stand">STAND</button>
-                            <button id="boardDealButton" class="boardControllers__buttons--deal">DEAL</button>
+                            <button id="boardDealButton" class="boardControllers__buttons--deal" disabled>DEAL</button>
                         </div>
                     </div>
                 </section>

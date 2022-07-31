@@ -7,7 +7,8 @@
 }
 
 /* GLOBAL CONTAINER */
-.globalContainer, .gameContainer {
+.globalContainer,
+.gameContainer {
     width: 100%;
 }
 
@@ -201,18 +202,21 @@
     height: 55vh;
 }
 
-.gameTableUser__score, .gameTableDealer__score {
+.gameTableUser__score,
+.gameTableDealer__score {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.gameTableUser__score > h3, .gameTableDealer__score > h3 {
+.gameTableUser__score > h3,
+.gameTableDealer__score > h3 {
     color: white;
     font-size: 1.5rem;
 }
 
-.gameTableUser__score > p, .gameTableDealer__score > p {
+.gameTableUser__score > p,
+.gameTableDealer__score > p {
     color: white;
     font-size: 22px;
     background-color: rgba(0, 0, 0, 1);
@@ -220,7 +224,19 @@
     border-radius: 100px;
 }
 
-.gameTableUser__board, .gameTableDealer__board {
+.blackjackPlayer, .blackjackDealer {
+    color: #fb8500 !important;
+    font-weight: bold;
+}
+
+.bustPlayer, .bustDealer {
+    color: #c1121f !important;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.gameTableUser__board,
+.gameTableDealer__board {
     padding: 0.5rem;
     display: flex;
     justify-content: center;
@@ -228,7 +244,8 @@
     align-items: center;
 }
 
-.gameTableUser__board > img, .gameTableDealer__board > img {
+.gameTableUser__board > img,
+.gameTableDealer__board > img {
     padding: 5px;
     width: 20%;
 }
