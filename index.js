@@ -192,6 +192,28 @@ $(document).ready(function() {
         };
     };
 
+    const clearScoreBoard = (player) => {
+        if(player.matchStatus.hasClass('bustPlayer')) {
+            player.matchStatus.text('Blackjack');
+            player.matchStatus.removeClass('bustPlayer');
+            player.matchStatus.addClass('removeContainer');
+
+            player.cardAmount.removeClass('removeContainer');
+            player.cardAmount.text('00');
+        } else {
+            player.cardAmount.text('00');
+        };
+
+        if(player.matchStatus.hasClass('blackjackPlayer')) {
+            player.matchStatus.removeClass('blackjackPlayer');
+            player.matchStatus.addClass('removeContainer');
+
+            player.cardAmount.text('00');
+        } else {
+            player.cardAmount.text('00');
+        }
+    };
+
     //PIECE OF CODE GOT IT FROM https://www.delftstack.com/howto/javascript/javascript-wait-for-x-seconds/, generates a delay to wait x seconds in javascript
     const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -244,7 +266,7 @@ $(document).ready(function() {
                 if(dealerPlayer.board[0].childElementCount === 2 && dealerPlayer.score === 21) {
                     dealerPlayer.isBlackJack = true;
                     dealerPlayer.matchStatus.removeClass('removeContainer');
-                    dealerPlayer.matchStatus.addClass('blackjackDealer');
+                    dealerPlayer.matchStatus.addClass('blackjackPlayer');
                 };
 
                 await delay(1000);
@@ -257,8 +279,39 @@ $(document).ready(function() {
 
     //RESTART GAME
     dealButton.click(() => {
-        console.log('Puedo Presionar boton');
+        if(game.turnIsOver && !game.isPlaying) {
+            dealButton.prop('disabled', true);
+            const userImg = userPlayer.board.children('img');
+            const dealerImg = dealerPlayer.board.children('img');
+
+            for(let i = 0; i < userImg.length; i++) {
+                userImg[i].remove();
+            };
+
+            for(let i = 0; i < dealerImg.length; i++) {
+                dealerImg[i].remove();
+            };
+
+            userPlayer.score = 0;
+            userPlayer.isBlackJack = false;
+            dealerPlayer.score = 0;
+            dealerPlayer.isBlackJack = false;
+
+            game.isPlaying = true;
+            game.turnIsOver = false;
+            game.isStand = false;
+
+            statusGame.text("Let's Play");
+            statusGame.css('color', '#003566');
+
+            clearScoreBoard(userPlayer);
+            clearScoreBoard(dealerPlayer);
+
+            firstGame(userPlayer, 2);
+            firstGame(dealerPlayer, 1);
+
+            hitButton.prop('disabled', false);
+            standButton.prop('disabled', false);
+        };
     });
-
-
 });
