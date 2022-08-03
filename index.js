@@ -19,6 +19,13 @@ $(document).ready(function() {
     const dealButton = $('#boardDealButton');
     const matchStatusPlayer = $('#matchStatusPlayer');
     const matchStatusDealer = $('#matchStatusDealer');
+    const splitButton = $('#boardSplitButton');
+    const hit2Button = $('#boardHit2Button');
+    const playerGameBoard2 = $('#playerGameBoard2');
+    const playerCardAmount2 = $('#playerCardAmountLowerHand');
+    const matchStatusPlayer2 = $('#matchStatusPlayer2');
+
+    let firstTwoCards = [];
 
     //INITIAL CONDITIONS OF THE GAME
     class BlackjackGame {
@@ -29,6 +36,7 @@ $(document).ready(function() {
             this.isPlaying = true;
             this.isStand = false;
             this.turnIsOver = false;
+            this.isSplitMode = false;
         };
 
         static cardIdentifiers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -51,6 +59,7 @@ $(document).ready(function() {
     const game = new BlackjackGame();
     const userPlayer = new Player(playerCardAmount, playerGameBoard, matchStatusPlayer);
     const dealerPlayer = new Player(dealerCardAmount, dealerGameBoard, matchStatusDealer);
+    let userPlayer2;
 
     welcomeForm.on('submit', function(e) {
         e.preventDefault();
@@ -166,7 +175,7 @@ $(document).ready(function() {
                     game.isPlaying = false;
                     game.turnIsOver = true;
                     statusGame.text('You Drew!');
-                    statusGame.css('color', '#fca311');
+                    statusGame.css('color', '#FB8500');
                     if(game.draws < 10) {
                         drawsDisplay.text(`0${game.draws}`);
                     } else {
@@ -189,6 +198,102 @@ $(document).ready(function() {
                     };
                 };
             };
+        };
+    };
+
+    const getResultforSplitModeBust = (activePlayer, isDealer) => {
+        if(game.isPlaying && !game.turnIsOver && game.isSplitMode) {
+            if(activePlayer.score > 21 && !isDealer) {
+                game.looses++;
+                activePlayer.matchStatus.text('You Lost!');
+
+                if(game.looses < 10) {
+                    loosesDisplay.text(`0${game.looses}`);
+                } else {
+                    loosesDisplay.text(game.looses);
+                };
+
+                if(userPlayer.score > 21 && userPlayer2.score > 21) {
+                    game.turnIsOver = true;
+                    game.isPlaying = false;
+                    dealButton.prop('disabled', false);
+                    statusGame.text('End of the Round');
+                    hit2Button.addClass('removeContainer');
+                    hit2Button.prop('disabled', true);
+                    standButton.prop('disabled', true);
+                };
+
+                if(userPlayer.score > 21 && userPlayer2.score < 21) {
+                    hitButton.prop('disabled', true);            
+                };
+            };
+        };
+
+        if(isDealer) {
+            if(((userPlayer.score > dealerPlayer.score) && userPlayer.score <= 21) || (dealerPlayer.score > 21 && userPlayer.score <= 21)) {
+                game.wins++;
+                userPlayer.cardAmount.text('You Won!');
+                if(game.wins < 10) {
+                    winsDisplay.text(`0${game.wins}`);
+                } else {
+                    winsDisplay.text(game.wins);
+                };
+            };
+    
+            if(userPlayer.score === dealerPlayer.score) {
+                game.draws++;
+                userPlayer.cardAmount.text('You Drew!');
+                if(game.draws < 10) {
+                    drawsDisplay.text(`0${game.draws}`);
+                } else {
+                    drawsDisplay.text(game.draws);
+                };
+            };
+    
+            if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer.score) && userPlayer.score <= 21) {
+                userPlayer.cardAmount.text('You Lost!');
+                game.looses++;
+                if(game.looses < 10) {
+                    loosesDisplay.text(`0${game.looses}`);
+                } else {
+                    loosesDisplay.text(game.looses);
+                };
+            };
+
+            if(((userPlayer2.score > dealerPlayer.score) && userPlayer2.score <= 21) || (dealerPlayer.score > 21 && userPlayer2.score <= 21)) {
+                game.wins++;
+                userPlayer2.cardAmount.text('You Won!');
+                if(game.wins < 10) {
+                    winsDisplay.text(`0${game.wins}`);
+                } else {
+                    winsDisplay.text(game.wins);
+                };
+            };
+    
+            if(userPlayer2.score === dealerPlayer.score) {
+                game.draws++;
+                userPlayer2.cardAmount.text('You Drew!');
+                if(game.draws < 10) {
+                    drawsDisplay.text(`0${game.draws}`);
+                } else {
+                    drawsDisplay.text(game.draws);
+                };
+            };
+    
+            if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer2.score) && userPlayer2.score <= 21) {
+                userPlayer2.cardAmount.text('You Lost!');
+                game.looses++;
+                if(game.looses < 10) {
+                    loosesDisplay.text(`0${game.looses}`);
+                } else {
+                    loosesDisplay.text(game.looses);
+                };
+            };
+
+            dealButton.prop('disabled', false);
+            game.isPlaying = false;
+            game.turnIsOver = true;
+            statusGame.text('End of the Round');
         };
     };
 
@@ -226,12 +331,18 @@ $(document).ready(function() {
                 showCard(user, card);
                 updateScore(user, card);
                 i++;
+                firstTwoCards.push(card);
             };
 
             if(user.score === 21) {
                 user.isBlackJack = true;
                 user.matchStatus.removeClass('removeContainer');
                 user.matchStatus.addClass('blackjackPlayer');
+            };
+
+            if(firstTwoCards.length > 1 && (BlackjackGame.cardValues[firstTwoCards[0]] === BlackjackGame.cardValues[firstTwoCards[1]]) && !game.isSplitMode) {
+                splitButton.removeClass('removeContainer');
+                splitButton.prop('disabled', false);
             };
         };
     };
@@ -247,15 +358,29 @@ $(document).ready(function() {
             showCard(userPlayer, newCard);
             updateScore(userPlayer, newCard);
 
+            if(!game.isSplitMode) {
+                splitButton.prop('disabled', true);
+                splitButton.addClass('removeContainer');
+            };
+
             if(userPlayer.score > 21) {
-                getResult();
+                if(game.isSplitMode) {
+                    getResultforSplitModeBust(userPlayer, false);
+                } else {
+                    getResult();
+                };
             };
         };
     });
 
     //DEALER PLAYS
     standButton.click(async () => {
-        hitButton.prop('disabled', true);
+        if(!game.isSplitMode) {
+            hitButton.prop('disabled', true);
+        } else {
+            hit2Button.addClass('removeContainer');
+            hit2Button.prop('disabled', true);
+        };
         standButton.prop('disabled', true);
         if(game.isPlaying && !game.turnIsOver && !game.isStand) {
             game.isStand = true;
@@ -272,14 +397,19 @@ $(document).ready(function() {
                 await delay(1000);
             };
 
-            getResult();
+            if(game.isSplitMode) {
+                getResultforSplitModeBust(dealerPlayer, true);
+            } else {
+                getResult();
+            };
+
+            console.log(game);
         };
     });
 
-
     //RESTART GAME
     dealButton.click(() => {
-        if(game.turnIsOver && !game.isPlaying) {
+        if(game.turnIsOver && !game.isPlaying && !game.isSplitMode) {
             dealButton.prop('disabled', true);
             const userImg = userPlayer.board.children('img');
             const dealerImg = dealerPlayer.board.children('img');
@@ -300,6 +430,9 @@ $(document).ready(function() {
             game.isPlaying = true;
             game.turnIsOver = false;
             game.isStand = false;
+            game.isSplitMode = false;
+
+            firstTwoCards = [];
 
             statusGame.text("Let's Play");
             statusGame.css('color', '#003566');
@@ -312,6 +445,115 @@ $(document).ready(function() {
 
             hitButton.prop('disabled', false);
             standButton.prop('disabled', false);
+        } else {
+            dealButton.prop('disabled', true);
+            const userImg = userPlayer.board.children('img');
+            const dealerImg = dealerPlayer.board.children('img');
+
+            for(let i = 0; i < userImg.length; i++) {
+                userImg[i].remove();
+            };
+
+            for(let i = 0; i < dealerImg.length; i++) {
+                dealerImg[i].remove();
+            };
+
+            userPlayer.score = 0;
+            userPlayer.isBlackJack = false;
+            dealerPlayer.score = 0;
+            dealerPlayer.isBlackJack = false;
+
+            game.isPlaying = true;
+            game.turnIsOver = false;
+            game.isStand = false;
+            game.isSplitMode = false;
+
+            firstTwoCards = [];
+
+            statusGame.text("Let's Play");
+            statusGame.css('color', '#003566');
+
+            clearScoreBoard(userPlayer);
+            clearScoreBoard(dealerPlayer);
+
+            const userImg2 = userPlayer2.board.children('img');
+
+            for(let i = 0; i < userImg2.length; i++) {
+                userImg2[i].remove();
+            };
+
+            clearScoreBoard(userPlayer2);
+            userPlayer2.board.addClass('removeContainer');
+            // userPlayer2.cardAmount.text('00');
+            userPlayer2.cardAmount.addClass('removeContainer');
+            userPlayer2.score = 0;
+            userPlayer2.isBlackJack = false;
+
+            firstGame(userPlayer, 2);
+            firstGame(dealerPlayer, 1);
+
+            hitButton.prop('disabled', false);
+            standButton.prop('disabled', false);
+        };
+    });
+
+    console.log(firstTwoCards);
+
+    //SPLIT YOUR CARDS
+    splitButton.click(() => {
+        console.log('Separo Perro');
+        if(!game.turnIsOver && !game.isStand && !game.isSplitMode) {
+            game.isSplitMode = true;
+            userPlayer2 = new Player(playerCardAmount2, playerGameBoard2, matchStatusPlayer2);
+
+            userPlayer.board.children('img')[1].remove();
+            userPlayer2.board.removeClass('removeContainer');
+            userPlayer2.cardAmount.removeClass('removeContainer');
+            userPlayer2.board.append(`<img src="./public/cards/${firstTwoCards[1]}.jpg" alt="${firstTwoCards[1]}" />`);
+            if(firstTwoCards[0] === 'A' && firstTwoCards[1] === 'A') {
+                userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]][1];
+                userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]][1];
+            } else {
+                userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]];
+                userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]];
+            };
+
+            if(userPlayer.score < 10) {
+                userPlayer.cardAmount.text(`0${userPlayer.score}`);
+            } else {
+                userPlayer.cardAmount.text(userPlayer.score.toString());
+            };
+
+            if(userPlayer2.score < 10) {
+                userPlayer2.cardAmount.text(`0${userPlayer2.score}`);
+            } else {
+                userPlayer2.cardAmount.text(userPlayer2.score.toString());
+            };
+
+            splitButton.prop('disabled', true);
+            splitButton.addClass('removeContainer');
+
+            hit2Button.removeClass('removeContainer');
+            hit2Button.prop('disabled', false);
+        };
+    });
+
+    hit2Button.click(() => {
+        if(game.isPlaying && !game.isStand && !game.turnIsOver) {
+            statusGame.text('Playing...');
+            hitButton.prop('disabled', true); 
+            const newCard2 = game.pickACard();
+            showCard(userPlayer2, newCard2);
+            updateScore(userPlayer2, newCard2);
+
+            if(userPlayer2.score > 21) {
+                getResultforSplitModeBust(userPlayer2, false);
+            };
+
+            console.log(game);
+            console.log(userPlayer);
+            console.log(dealerPlayer);
+            console.log(userPlayer2);
         };
     });
 });

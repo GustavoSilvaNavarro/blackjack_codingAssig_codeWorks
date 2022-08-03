@@ -224,6 +224,10 @@
     border-radius: 100px;
 }
 
+.gameTableUser__score--lowerScoreHand {
+    background-color: rgb(0, 24, 69) !important;
+}
+
 .blackjackPlayer, .blackjackDealer {
     color: #fb8500 !important;
     font-weight: bold;
@@ -385,5 +389,24 @@
     color: #fff;
     border: 3px solid #495057;
     background-color: #495057;
+    transition: all 0.4s ease;
+}
+
+.boardControllers__buttons--split,
+.boardControllers__buttons--hit2 {
+    cursor: pointer;
+    color: #ffc300;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid #ffc300;
+    background-color: rgba(255, 225, 76, 0.1);
+    box-shadow: 5px 10px 20px rgba(255, 225, 76, 0.2) inset;
+}
+
+.boardControllers__buttons--split:hover,
+.boardControllers__buttons--hit2:hover {
+    color: #fff;
+    border: 3px solid #ffc300;
+    background-color: #ffc300;
     transition: all 0.4s ease;
 }

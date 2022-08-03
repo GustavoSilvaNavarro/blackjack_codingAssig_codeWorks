@@ -48,15 +48,18 @@
 
                 <section class="blackjackBoard__gameTable">
                     <div class="gameTable__players">
-                        <div class="gameTable__user">
+                        <div id="playerTotalBoard" class="gameTable__user">
                             <div class="gameTableUser__score">
                                 <h3 class="playerName">Player</h3>
                                 <p id="matchStatusPlayer" class="removeContainer">Blackjack</p>
                                 <p id="playerCardAmount">00</p>
+                                <p id="playerCardAmountLowerHand" class="gameTableUser__score--lowerScoreHand removeContainer">00</p>
+                                <p id="matchStatusPlayer2" class="removeContainer">Blackjack</p>
                             </div>
                             <div id="playerGameBoard" class="gameTableUser__board">
 
                             </div>
+                            <div id="playerGameBoard2" class="gameTableUser__board removeContainer"></div>
                         </div>
                         <div class="gameTable__computer">
                             <div class="gameTableDealer__score">
@@ -77,7 +80,7 @@
                             </div>
                             <div class="boardControllers__statistics--looses">
                                 <span id="playerLooses">00</span>
-                                <p>Looses</p>
+                                <p>Losses</p>
                             </div>
                             <div class="boardControllers__statistics--draws">
                                 <span id="playerDraws">00</span>
@@ -86,6 +89,8 @@
                         </div>
                         <div class="boardControllers__buttons">
                             <button id="boardHitButton" class="boardControllers__buttons--hit">HIT</button>
+                            <button id="boardSplitButton" class="boardControllers__buttons--split removeContainer" disabled>SPLIT</button>
+                            <button id="boardHit2Button" class="boardControllers__buttons--hit2 removeContainer" disabled>HIT 2</button>
                             <button id="boardStandButton" class="boardControllers__buttons--stand">STAND</button>
                             <button id="boardDealButton" class="boardControllers__buttons--deal" disabled>DEAL</button>
                         </div>
