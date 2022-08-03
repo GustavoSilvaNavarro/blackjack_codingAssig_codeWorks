@@ -85,7 +85,7 @@
     caret-color: #0466c8;
     font-weight: bold;
     color: #024;
-    transition: border-bottom 400ms; /* taken from w3school */
+    transition: border-bottom 400ms; /* taken from w3school website */
 }
 
 .playerNameField > input::placeholder {

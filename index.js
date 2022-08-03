@@ -106,7 +106,7 @@ $(document).ready(function() {
         };
 
         if((dealerPlayer.score <= 21) && (dealerPlayer.score > player.score) && player.score <= 21) {
-            userPlayer.cardAmount.text('You Lost!');
+            player.cardAmount.text('You Lost!');
             game.looses++;
             displayGameScores(game.looses, loosesDisplay)
         };
@@ -268,7 +268,7 @@ $(document).ready(function() {
                 firstTwoCards.push(card);
             };
 
-            if(user.score === 21) {
+            if(user.score === 21 && !game.isSplitMode) {
                 user.isBlackJack = true;
                 user.matchStatus.removeClass('removeContainer');
                 user.matchStatus.addClass('blackjackPlayer');
@@ -396,8 +396,6 @@ $(document).ready(function() {
         };
     });
 
-    // console.log(firstTwoCards);
-
     //SPLIT YOUR CARDS
     splitButton.click(() => {
         if(!game.turnIsOver && !game.isStand && !game.isSplitMode) {
@@ -414,26 +412,32 @@ $(document).ready(function() {
             if(firstTwoCards[0] === 'A' && firstTwoCards[1] === 'A') {
                 userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]][1];
                 userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]][1];
+
+                firstGame(userPlayer, 1);
+                firstGame(userPlayer2, 1);
+                hitButton.prop('disabled', true);
+                splitButton.prop('disabled', true);
+                splitButton.addClass('removeContainer')
             } else {
                 userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]];
                 userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]];
+
+                splitButton.prop('disabled', true);
+                splitButton.addClass('removeContainer');
+
+                hit2Button.removeClass('removeContainer');
+                hit2Button.prop('disabled', false);
             };
 
             displayPlayersScore(userPlayer);
             displayPlayersScore(userPlayer2);
-
-            splitButton.prop('disabled', true);
-            splitButton.addClass('removeContainer');
-
-            hit2Button.removeClass('removeContainer');
-            hit2Button.prop('disabled', false);
         };
     });
 
     hit2Button.click(() => {
         if(game.isPlaying && !game.isStand && !game.turnIsOver) {
             (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
-            hitButton.prop('disabled', true); 
+            hitButton.prop('disabled', true);
             const newCard2 = game.pickACard();
             showCard(userPlayer2, newCard2);
             updateScore(userPlayer2, newCard2);
