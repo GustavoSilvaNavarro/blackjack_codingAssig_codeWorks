@@ -80,17 +80,18 @@ $(document).ready(function() {
         if(currentPlayer.score <= 21) currentPlayer.board.append(`<img src="./public/cards/${card}.jpg" alt="${card}" />`);
     };
 
+    //DISPLAY OVERALL SCORES
+    const displayGameScores = (gameScore, display) => {
+        (gameScore < 10) ? display.text(`0${gameScore}`) : display.text(gameScore);
+    };
+
     //Update the score
     const updateScore = (currentPlayer, card) => {
         if(currentPlayer.score <= 21) {
             if(card === 'A') {
                 if(currentPlayer.score + BlackjackGame.cardValues[card][1] <= 21) {
                     currentPlayer.score += BlackjackGame.cardValues[card][1];
-                    if(currentPlayer.score < 10) {
-                        currentPlayer.cardAmount.text(`0${currentPlayer.score}`);
-                    } else {
-                        currentPlayer.cardAmount.text(currentPlayer.score.toString());
-                    };
+                    (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());
                 } else {
                     currentPlayer.score += BlackjackGame.cardValues[card][0];
                     if(currentPlayer.score > 21) {
@@ -106,11 +107,7 @@ $(document).ready(function() {
                             currentPlayer.matchStatus.addClass('bustPlayer')
                         };
                     } else {
-                        if(currentPlayer.score < 10) {
-                            currentPlayer.cardAmount.text(`0${currentPlayer.score}`);
-                        } else {
-                            currentPlayer.cardAmount.text(currentPlayer.score.toString());
-                        };
+                        (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());
                     };
                 };
             } else {
@@ -128,11 +125,7 @@ $(document).ready(function() {
                         currentPlayer.matchStatus.addClass('bustPlayer')
                     };
                 } else {
-                    if(currentPlayer.score < 10) {
-                        currentPlayer.cardAmount.text(`0${currentPlayer.score}`);
-                    } else {
-                        currentPlayer.cardAmount.text(currentPlayer.score.toString());
-                    };    
+                    (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());    
                 };
             };
         };
@@ -150,11 +143,7 @@ $(document).ready(function() {
                 game.isPlaying = false;
                 game.turnIsOver = true;
                 game.looses++;
-                if(game.looses < 10) {
-                    loosesDisplay.text(`0${game.looses}`);
-                } else {
-                    loosesDisplay.text(game.looses);
-                };
+                displayGameScores(game.looses, loosesDisplay);
             } else {
                 if((userPlayer.score > dealerPlayer.score) || (dealerPlayer.score > 21)) {
                     game.wins++;
@@ -162,11 +151,7 @@ $(document).ready(function() {
                     game.turnIsOver = true;
                     statusGame.text('You Won!');
                     statusGame.css('color', '#008000');
-                    if(game.wins < 10) {
-                        winsDisplay.text(`0${game.wins}`);
-                    } else {
-                        winsDisplay.text(game.wins);
-                    };
+                    displayGameScores(game.wins, winsDisplay);
                     dealButton.prop('disabled', false);
                 };
 
@@ -176,11 +161,7 @@ $(document).ready(function() {
                     game.turnIsOver = true;
                     statusGame.text('You Drew!');
                     statusGame.css('color', '#FB8500');
-                    if(game.draws < 10) {
-                        drawsDisplay.text(`0${game.draws}`);
-                    } else {
-                        drawsDisplay.text(game.draws);
-                    };
+                    displayGameScores(game.draws, drawsDisplay);
                     dealButton.prop('disabled', false);
                 };
 
@@ -191,11 +172,7 @@ $(document).ready(function() {
                     game.isPlaying = false;
                     game.turnIsOver = true;
                     game.looses++;
-                    if(game.looses < 10) {
-                        loosesDisplay.text(`0${game.looses}`);
-                    } else {
-                        loosesDisplay.text(game.looses);
-                    };
+                    displayGameScores(game.looses, loosesDisplay);
                 };
             };
         };
@@ -207,11 +184,7 @@ $(document).ready(function() {
                 game.looses++;
                 activePlayer.matchStatus.text('You Lost!');
 
-                if(game.looses < 10) {
-                    loosesDisplay.text(`0${game.looses}`);
-                } else {
-                    loosesDisplay.text(game.looses);
-                };
+                displayGameScores(game.looses, loosesDisplay)
 
                 if(userPlayer.score > 21 && userPlayer2.score > 21) {
                     game.turnIsOver = true;
@@ -233,61 +206,37 @@ $(document).ready(function() {
             if(((userPlayer.score > dealerPlayer.score) && userPlayer.score <= 21) || (dealerPlayer.score > 21 && userPlayer.score <= 21)) {
                 game.wins++;
                 userPlayer.cardAmount.text('You Won!');
-                if(game.wins < 10) {
-                    winsDisplay.text(`0${game.wins}`);
-                } else {
-                    winsDisplay.text(game.wins);
-                };
+                displayGameScores(game.wins, winsDisplay);
             };
     
             if(userPlayer.score === dealerPlayer.score) {
                 game.draws++;
                 userPlayer.cardAmount.text('You Drew!');
-                if(game.draws < 10) {
-                    drawsDisplay.text(`0${game.draws}`);
-                } else {
-                    drawsDisplay.text(game.draws);
-                };
+                displayGameScores(game.draws, drawsDisplay);
             };
     
             if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer.score) && userPlayer.score <= 21) {
                 userPlayer.cardAmount.text('You Lost!');
                 game.looses++;
-                if(game.looses < 10) {
-                    loosesDisplay.text(`0${game.looses}`);
-                } else {
-                    loosesDisplay.text(game.looses);
-                };
+                displayGameScores(game.looses, loosesDisplay)
             };
 
             if(((userPlayer2.score > dealerPlayer.score) && userPlayer2.score <= 21) || (dealerPlayer.score > 21 && userPlayer2.score <= 21)) {
                 game.wins++;
                 userPlayer2.cardAmount.text('You Won!');
-                if(game.wins < 10) {
-                    winsDisplay.text(`0${game.wins}`);
-                } else {
-                    winsDisplay.text(game.wins);
-                };
+                displayGameScores(game.wins, winsDisplay);
             };
     
             if(userPlayer2.score === dealerPlayer.score) {
                 game.draws++;
                 userPlayer2.cardAmount.text('You Drew!');
-                if(game.draws < 10) {
-                    drawsDisplay.text(`0${game.draws}`);
-                } else {
-                    drawsDisplay.text(game.draws);
-                };
+                displayGameScores(game.draws, drawsDisplay);
             };
     
             if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer2.score) && userPlayer2.score <= 21) {
                 userPlayer2.cardAmount.text('You Lost!');
                 game.looses++;
-                if(game.looses < 10) {
-                    loosesDisplay.text(`0${game.looses}`);
-                } else {
-                    loosesDisplay.text(game.looses);
-                };
+                displayGameScores(game.looses, loosesDisplay);
             };
 
             dealButton.prop('disabled', false);
@@ -316,7 +265,7 @@ $(document).ready(function() {
             player.cardAmount.text('00');
         } else {
             player.cardAmount.text('00');
-        }
+        };
     };
 
     //PIECE OF CODE GOT IT FROM https://www.delftstack.com/howto/javascript/javascript-wait-for-x-seconds/, generates a delay to wait x seconds in javascript
@@ -353,7 +302,8 @@ $(document).ready(function() {
     //HIT BUTTON FUNCTIONALITY
     hitButton.click(() => {
         if(game.isPlaying && !game.isStand && !game.turnIsOver) {
-            statusGame.text('Playing...');
+            (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
+
             const newCard = game.pickACard();
             showCard(userPlayer, newCard);
             updateScore(userPlayer, newCard);
@@ -364,11 +314,7 @@ $(document).ready(function() {
             };
 
             if(userPlayer.score > 21) {
-                if(game.isSplitMode) {
-                    getResultforSplitModeBust(userPlayer, false);
-                } else {
-                    getResult();
-                };
+                (game.isSplitMode) ? getResultforSplitModeBust(userPlayer, false) : getResult();
             };
         };
     });
@@ -377,6 +323,10 @@ $(document).ready(function() {
     standButton.click(async () => {
         if(!game.isSplitMode) {
             hitButton.prop('disabled', true);
+            if(!splitButton.hasClass('removeContainer')) {
+                splitButton.prop('disabled', true);
+                splitButton.addClass('removeContainer');
+            };
         } else {
             hit2Button.addClass('removeContainer');
             hit2Button.prop('disabled', true);
@@ -384,6 +334,8 @@ $(document).ready(function() {
         standButton.prop('disabled', true);
         if(game.isPlaying && !game.turnIsOver && !game.isStand) {
             game.isStand = true;
+            (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
+
             while(dealerPlayer.score <= 16) {
                 const newDealerCard = game.pickACard();
                 showCard(dealerPlayer, newDealerCard);
@@ -397,11 +349,7 @@ $(document).ready(function() {
                 await delay(1000);
             };
 
-            if(game.isSplitMode) {
-                getResultforSplitModeBust(dealerPlayer, true);
-            } else {
-                getResult();
-            };
+            (game.isSplitMode) ? getResultforSplitModeBust(dealerPlayer, true) : getResult();
 
             console.log(game);
         };
@@ -409,7 +357,7 @@ $(document).ready(function() {
 
     //RESTART GAME
     dealButton.click(() => {
-        if(game.turnIsOver && !game.isPlaying && !game.isSplitMode) {
+        if(game.turnIsOver && !game.isPlaying) {
             dealButton.prop('disabled', true);
             const userImg = userPlayer.board.children('img');
             const dealerImg = dealerPlayer.board.children('img');
@@ -430,7 +378,6 @@ $(document).ready(function() {
             game.isPlaying = true;
             game.turnIsOver = false;
             game.isStand = false;
-            game.isSplitMode = false;
 
             firstTwoCards = [];
 
@@ -440,60 +387,29 @@ $(document).ready(function() {
             clearScoreBoard(userPlayer);
             clearScoreBoard(dealerPlayer);
 
-            firstGame(userPlayer, 2);
-            firstGame(dealerPlayer, 1);
+            if(game.isSplitMode) {
+                const userImg2 = userPlayer2.board.children('img');
 
-            hitButton.prop('disabled', false);
-            standButton.prop('disabled', false);
-        } else {
-            dealButton.prop('disabled', true);
-            const userImg = userPlayer.board.children('img');
-            const dealerImg = dealerPlayer.board.children('img');
-
-            for(let i = 0; i < userImg.length; i++) {
-                userImg[i].remove();
+                for(let i = 0; i < userImg2.length; i++) {
+                    userImg2[i].remove();
+                };
+    
+                clearScoreBoard(userPlayer2);
+                userPlayer2.board.addClass('removeContainer');
+                userPlayer2.cardAmount.addClass('removeContainer');
+                userPlayer2.score = 0;
+                userPlayer2.isBlackJack = false;
             };
 
-            for(let i = 0; i < dealerImg.length; i++) {
-                dealerImg[i].remove();
-            };
-
-            userPlayer.score = 0;
-            userPlayer.isBlackJack = false;
-            dealerPlayer.score = 0;
-            dealerPlayer.isBlackJack = false;
-
-            game.isPlaying = true;
-            game.turnIsOver = false;
-            game.isStand = false;
             game.isSplitMode = false;
 
-            firstTwoCards = [];
-
-            statusGame.text("Let's Play");
-            statusGame.css('color', '#003566');
-
-            clearScoreBoard(userPlayer);
-            clearScoreBoard(dealerPlayer);
-
-            const userImg2 = userPlayer2.board.children('img');
-
-            for(let i = 0; i < userImg2.length; i++) {
-                userImg2[i].remove();
-            };
-
-            clearScoreBoard(userPlayer2);
-            userPlayer2.board.addClass('removeContainer');
-            // userPlayer2.cardAmount.text('00');
-            userPlayer2.cardAmount.addClass('removeContainer');
-            userPlayer2.score = 0;
-            userPlayer2.isBlackJack = false;
-
             firstGame(userPlayer, 2);
             firstGame(dealerPlayer, 1);
 
             hitButton.prop('disabled', false);
             standButton.prop('disabled', false);
+
+            console.log(game);
         };
     });
 
@@ -501,15 +417,17 @@ $(document).ready(function() {
 
     //SPLIT YOUR CARDS
     splitButton.click(() => {
-        console.log('Separo Perro');
         if(!game.turnIsOver && !game.isStand && !game.isSplitMode) {
             game.isSplitMode = true;
             userPlayer2 = new Player(playerCardAmount2, playerGameBoard2, matchStatusPlayer2);
+
+            (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
 
             userPlayer.board.children('img')[1].remove();
             userPlayer2.board.removeClass('removeContainer');
             userPlayer2.cardAmount.removeClass('removeContainer');
             userPlayer2.board.append(`<img src="./public/cards/${firstTwoCards[1]}.jpg" alt="${firstTwoCards[1]}" />`);
+
             if(firstTwoCards[0] === 'A' && firstTwoCards[1] === 'A') {
                 userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]][1];
                 userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]][1];
@@ -540,7 +458,7 @@ $(document).ready(function() {
 
     hit2Button.click(() => {
         if(game.isPlaying && !game.isStand && !game.turnIsOver) {
-            statusGame.text('Playing...');
+            (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
             hitButton.prop('disabled', true); 
             const newCard2 = game.pickACard();
             showCard(userPlayer2, newCard2);
@@ -549,11 +467,6 @@ $(document).ready(function() {
             if(userPlayer2.score > 21) {
                 getResultforSplitModeBust(userPlayer2, false);
             };
-
-            console.log(game);
-            console.log(userPlayer);
-            console.log(dealerPlayer);
-            console.log(userPlayer2);
         };
     });
 });
