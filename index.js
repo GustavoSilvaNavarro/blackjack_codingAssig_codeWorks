@@ -41,6 +41,7 @@ $(document).ready(function() {
 
         static cardIdentifiers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         static cardValues = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': [1, 11]};
+        static cardLinkImgs = {'2': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/2_nuqeji.webp', '3': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/3_hd5fiw.webp', '4': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/4_juu8k9.webp', '5': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/5_lpr3lr.webp', '6': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/6_kjbrtt.webp', '7': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/7_ttoult.webp', '8': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/8_pnv5gw.webp', '9': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/9_nuyjcf.webp', '10': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/10_msmos8.webp', 'J': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/J_ykco4o.webp', 'Q': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/Q_pued87.webp', 'K': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/K_j74qdn.webp', 'A': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/A_cegppd.webp'};
 
         pickACard = () => BlackjackGame.cardIdentifiers[Math.floor(Math.random() * 13)];
     };
@@ -77,7 +78,7 @@ $(document).ready(function() {
 
     // Show Cards
     const showCard = (currentPlayer, card) => {
-        if(currentPlayer.score <= 21) currentPlayer.board.append(`<img src="./public/cards/${card}.jpg" alt="${card}" />`);
+        if(currentPlayer.score <= 21) currentPlayer.board.append(`<img src=${BlackjackGame.cardLinkImgs[card]} alt="${card}" />`);
     };
 
     //DISPLAY OVERALL SCORES
@@ -90,6 +91,46 @@ $(document).ready(function() {
         (player.score < 10) ? player.cardAmount.text(`0${player.score}`) : player.cardAmount.text(player.score.toString());
     };
 
+    //COMPARE RESULTS AGAINS DEALER
+    const scoreComparison = player => {
+        if(((player.score > dealerPlayer.score) && player.score <= 21) || (dealerPlayer.score > 21 && player.score <= 21)) {
+            game.wins++;
+            player.cardAmount.text('You Won!');
+            displayGameScores(game.wins, winsDisplay);
+        };
+
+        if(player.score === dealerPlayer.score) {
+            game.draws++;
+            player.cardAmount.text('You Drew!');
+            displayGameScores(game.draws, drawsDisplay);
+        };
+
+        if((dealerPlayer.score <= 21) && (dealerPlayer.score > player.score) && player.score <= 21) {
+            userPlayer.cardAmount.text('You Lost!');
+            game.looses++;
+            displayGameScores(game.looses, loosesDisplay)
+        };
+    };
+
+    //DISPLAYS BUST
+    const bustPlayer = player => {
+        if(player.score > 21) {
+            player.cardAmount.addClass('removeContainer');
+            if(player.isBlackJack) {
+                player.isBlackJack = false;
+                player.matchStatus.text('Bust!');
+                player.matchStatus.removeClass('blackjackPlayer');
+                player.matchStatus.addClass('bustPlayer');
+            } else {
+                player.matchStatus.removeClass('removeContainer');
+                player.matchStatus.text('Bust!');
+                player.matchStatus.addClass('bustPlayer')
+            };
+        } else {
+            displayPlayersScore(player);
+        };
+    };
+
     //Update the score
     const updateScore = (currentPlayer, card) => {
         if(currentPlayer.score <= 21) {
@@ -99,39 +140,11 @@ $(document).ready(function() {
                     displayPlayersScore(currentPlayer);
                 } else {
                     currentPlayer.score += BlackjackGame.cardValues[card][0];
-                    if(currentPlayer.score > 21) {
-                        currentPlayer.cardAmount.addClass('removeContainer');
-                        if(currentPlayer.isBlackJack) {
-                            currentPlayer.isBlackJack = false;
-                            currentPlayer.matchStatus.text('Bust!');
-                            currentPlayer.matchStatus.removeClass('blackjackPlayer');
-                            currentPlayer.matchStatus.addClass('bustPlayer');
-                        } else {
-                            currentPlayer.matchStatus.removeClass('removeContainer');
-                            currentPlayer.matchStatus.text('Bust!');
-                            currentPlayer.matchStatus.addClass('bustPlayer')
-                        };
-                    } else {
-                        displayPlayersScore(currentPlayer);
-                    };
+                    bustPlayer(currentPlayer);
                 };
             } else {
                 currentPlayer.score += BlackjackGame.cardValues[card];
-                if(currentPlayer.score > 21) {
-                    currentPlayer.cardAmount.addClass('removeContainer');
-                    if(currentPlayer.isBlackJack) {
-                        currentPlayer.isBlackJack = false;
-                        currentPlayer.matchStatus.text('Bust!');
-                        currentPlayer.matchStatus.removeClass('blackjackPlayer');
-                        currentPlayer.matchStatus.addClass('bustPlayer');
-                    } else {
-                        currentPlayer.matchStatus.removeClass('removeContainer');
-                        currentPlayer.matchStatus.text('Bust!');
-                        currentPlayer.matchStatus.addClass('bustPlayer')
-                    };
-                } else {
-                    displayPlayersScore(currentPlayer);
-                };
+                bustPlayer(currentPlayer)
             };
         };
     };
@@ -208,41 +221,8 @@ $(document).ready(function() {
         };
 
         if(isDealer) {
-            if(((userPlayer.score > dealerPlayer.score) && userPlayer.score <= 21) || (dealerPlayer.score > 21 && userPlayer.score <= 21)) {
-                game.wins++;
-                userPlayer.cardAmount.text('You Won!');
-                displayGameScores(game.wins, winsDisplay);
-            };
-    
-            if(userPlayer.score === dealerPlayer.score) {
-                game.draws++;
-                userPlayer.cardAmount.text('You Drew!');
-                displayGameScores(game.draws, drawsDisplay);
-            };
-    
-            if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer.score) && userPlayer.score <= 21) {
-                userPlayer.cardAmount.text('You Lost!');
-                game.looses++;
-                displayGameScores(game.looses, loosesDisplay)
-            };
-
-            if(((userPlayer2.score > dealerPlayer.score) && userPlayer2.score <= 21) || (dealerPlayer.score > 21 && userPlayer2.score <= 21)) {
-                game.wins++;
-                userPlayer2.cardAmount.text('You Won!');
-                displayGameScores(game.wins, winsDisplay);
-            };
-    
-            if(userPlayer2.score === dealerPlayer.score) {
-                game.draws++;
-                userPlayer2.cardAmount.text('You Drew!');
-                displayGameScores(game.draws, drawsDisplay);
-            };
-    
-            if((dealerPlayer.score <= 21) && (dealerPlayer.score > userPlayer2.score) && userPlayer2.score <= 21) {
-                userPlayer2.cardAmount.text('You Lost!');
-                game.looses++;
-                displayGameScores(game.looses, loosesDisplay);
-            };
+            scoreComparison(userPlayer);
+            scoreComparison(userPlayer2);
 
             dealButton.prop('disabled', false);
             game.isPlaying = false;
@@ -357,8 +337,6 @@ $(document).ready(function() {
             };
 
             (game.isSplitMode) ? getResultforSplitModeBust(dealerPlayer, true) : getResult();
-
-            console.log(game);
         };
     });
 
@@ -415,12 +393,10 @@ $(document).ready(function() {
 
             hitButton.prop('disabled', false);
             standButton.prop('disabled', false);
-
-            console.log(game);
         };
     });
 
-    console.log(firstTwoCards);
+    // console.log(firstTwoCards);
 
     //SPLIT YOUR CARDS
     splitButton.click(() => {
@@ -433,7 +409,7 @@ $(document).ready(function() {
             userPlayer.board.children('img')[1].remove();
             userPlayer2.board.removeClass('removeContainer');
             userPlayer2.cardAmount.removeClass('removeContainer');
-            userPlayer2.board.append(`<img src="./public/cards/${firstTwoCards[1]}.jpg" alt="${firstTwoCards[1]}" />`);
+            userPlayer2.board.append(`<img src=${BlackjackGame.cardLinkImgs[firstTwoCards[1]]} alt="${firstTwoCards[1]}" />`);
 
             if(firstTwoCards[0] === 'A' && firstTwoCards[1] === 'A') {
                 userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]][1];
@@ -464,6 +440,7 @@ $(document).ready(function() {
 
             if(userPlayer2.score > 21) {
                 getResultforSplitModeBust(userPlayer2, false);
+                hit2Button.prop('disabled', true);
             };
         };
     });
