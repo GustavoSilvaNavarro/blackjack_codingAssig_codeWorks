@@ -85,13 +85,18 @@ $(document).ready(function() {
         (gameScore < 10) ? display.text(`0${gameScore}`) : display.text(gameScore);
     };
 
+    //DISPLAY PLAYERS SCORE
+    const displayPlayersScore = player => {
+        (player.score < 10) ? player.cardAmount.text(`0${player.score}`) : player.cardAmount.text(player.score.toString());
+    };
+
     //Update the score
     const updateScore = (currentPlayer, card) => {
         if(currentPlayer.score <= 21) {
             if(card === 'A') {
                 if(currentPlayer.score + BlackjackGame.cardValues[card][1] <= 21) {
                     currentPlayer.score += BlackjackGame.cardValues[card][1];
-                    (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());
+                    displayPlayersScore(currentPlayer);
                 } else {
                     currentPlayer.score += BlackjackGame.cardValues[card][0];
                     if(currentPlayer.score > 21) {
@@ -107,7 +112,7 @@ $(document).ready(function() {
                             currentPlayer.matchStatus.addClass('bustPlayer')
                         };
                     } else {
-                        (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());
+                        displayPlayersScore(currentPlayer);
                     };
                 };
             } else {
@@ -125,7 +130,7 @@ $(document).ready(function() {
                         currentPlayer.matchStatus.addClass('bustPlayer')
                     };
                 } else {
-                    (currentPlayer.score < 10) ? currentPlayer.cardAmount.text(`0${currentPlayer.score}`) : currentPlayer.cardAmount.text(currentPlayer.score.toString());    
+                    displayPlayersScore(currentPlayer);
                 };
             };
         };
@@ -331,7 +336,9 @@ $(document).ready(function() {
             hit2Button.addClass('removeContainer');
             hit2Button.prop('disabled', true);
         };
+
         standButton.prop('disabled', true);
+
         if(game.isPlaying && !game.turnIsOver && !game.isStand) {
             game.isStand = true;
             (statusGame.text() === "Let's Play") ? statusGame.text('Playing...') : '';
@@ -436,17 +443,8 @@ $(document).ready(function() {
                 userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]];
             };
 
-            if(userPlayer.score < 10) {
-                userPlayer.cardAmount.text(`0${userPlayer.score}`);
-            } else {
-                userPlayer.cardAmount.text(userPlayer.score.toString());
-            };
-
-            if(userPlayer2.score < 10) {
-                userPlayer2.cardAmount.text(`0${userPlayer2.score}`);
-            } else {
-                userPlayer2.cardAmount.text(userPlayer2.score.toString());
-            };
+            displayPlayersScore(userPlayer);
+            displayPlayersScore(userPlayer2);
 
             splitButton.prop('disabled', true);
             splitButton.addClass('removeContainer');
