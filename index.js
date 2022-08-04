@@ -54,6 +54,7 @@ $(document).ready(function() {
             this.score = 0;
             this.isBlackJack = false;
             this.matchStatus = matchStatus;
+            this.hasAnAss = false;
         };
     };
 
@@ -137,14 +138,37 @@ $(document).ready(function() {
             if(card === 'A') {
                 if(currentPlayer.score + BlackjackGame.cardValues[card][1] <= 21) {
                     currentPlayer.score += BlackjackGame.cardValues[card][1];
+                    currentPlayer.hasAnAss = true;
                     displayPlayersScore(currentPlayer);
                 } else {
                     currentPlayer.score += BlackjackGame.cardValues[card][0];
-                    bustPlayer(currentPlayer);
+                    if(currentPlayer.hasAnAss && currentPlayer.score > 21) {
+                        currentPlayer.score -= 10;
+                        currentPlayer.hasAnAss = false;
+                        if(currentPlayer.isBlackJack) {
+                            currentPlayer.isBlackJack = false;
+                            currentPlayer.matchStatus.removeClass('blackjackPlayer');
+                            currentPlayer.matchStatus.addClass('removeContainer');
+                        };
+                        bustPlayer(currentPlayer);
+                    } else {
+                        bustPlayer(currentPlayer);
+                    };
                 };
             } else {
                 currentPlayer.score += BlackjackGame.cardValues[card];
-                bustPlayer(currentPlayer)
+                if(currentPlayer.hasAnAss && currentPlayer.score > 21) {
+                    currentPlayer.score -= 10;
+                    currentPlayer.hasAnAss = false;
+                    if(currentPlayer.isBlackJack) {
+                        currentPlayer.isBlackJack = false;
+                        currentPlayer.matchStatus.removeClass('blackjackPlayer');
+                        currentPlayer.matchStatus.addClass('removeContainer');
+                    };
+                    bustPlayer(currentPlayer);
+                } else {
+                    bustPlayer(currentPlayer);
+                };
             };
         };
     };
@@ -357,8 +381,10 @@ $(document).ready(function() {
 
             userPlayer.score = 0;
             userPlayer.isBlackJack = false;
+            userPlayer.hasAnAss = false;
             dealerPlayer.score = 0;
             dealerPlayer.isBlackJack = false;
+            dealerPlayer.hasAnAss = false;
 
             game.isPlaying = true;
             game.turnIsOver = false;
@@ -384,6 +410,7 @@ $(document).ready(function() {
                 userPlayer2.cardAmount.addClass('removeContainer');
                 userPlayer2.score = 0;
                 userPlayer2.isBlackJack = false;
+                userPlayer2.hasAnAss = false;
             };
 
             game.isSplitMode = false;
@@ -412,6 +439,7 @@ $(document).ready(function() {
             if(firstTwoCards[0] === 'A' && firstTwoCards[1] === 'A') {
                 userPlayer.score = BlackjackGame.cardValues[firstTwoCards[0]][1];
                 userPlayer2.score = BlackjackGame.cardValues[firstTwoCards[1]][1];
+                userPlayer2.hasAnAss = true;
 
                 firstGame(userPlayer, 1);
                 firstGame(userPlayer2, 1);
