@@ -28,7 +28,7 @@ $(document).ready(function() {
     let firstTwoCards = [];
 
     //INITIAL CONDITIONS OF THE GAME
-    class BlackjackGame {
+    class BlackjackGame { // code base on javascript tutorial from clever programmer and https://codesandbox.io/s/javascript-beginner-tutorial-blackjack-epegw?from-embed
         constructor() {
             this.wins = 0;
             this.looses = 0;
@@ -43,7 +43,7 @@ $(document).ready(function() {
         static cardValues = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': [1, 11]};
         static cardLinkImgs = {'2': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/2_nuqeji.webp', '3': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/3_hd5fiw.webp', '4': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/4_juu8k9.webp', '5': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/5_lpr3lr.webp', '6': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/6_kjbrtt.webp', '7': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/7_ttoult.webp', '8': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540169/codeWorkAssigment/cards/8_pnv5gw.webp', '9': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/9_nuyjcf.webp', '10': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/10_msmos8.webp', 'J': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/J_ykco4o.webp', 'Q': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/Q_pued87.webp', 'K': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/K_j74qdn.webp', 'A': 'https://res.cloudinary.com/dukuzakaw/image/upload/v1659540170/codeWorkAssigment/cards/A_cegppd.webp'};
 
-        pickACard = () => BlackjackGame.cardIdentifiers[Math.floor(Math.random() * 13)];
+        pickACard = () => BlackjackGame.cardIdentifiers[Math.floor(Math.random() * 13)]; //code based on sample from MDN
     };
 
     //PLAYERS
@@ -66,7 +66,7 @@ $(document).ready(function() {
     welcomeForm.on('submit', function(e) {
         e.preventDefault();
 
-        const expReg = /^[a-zA-Z\s]{3,60}$/;
+        const expReg = /^[a-zA-Z\s]{3,60}$/; //code base on https://www.codegrepper.com/code-examples/whatever/regex+only+letters
         if(expReg.test(inputPlayerName.val())) {
             welcomeContainer.addClass('removeContainer');
             gameContainer.removeClass('removeContainer');
@@ -78,7 +78,7 @@ $(document).ready(function() {
     });
 
     // Show Cards
-    const showCard = (currentPlayer, card) => {
+    const showCard = (currentPlayer, card) => { //code base on javascript tutorial from clever programmer
         if(currentPlayer.score <= 21) currentPlayer.board.append(`<img src=${BlackjackGame.cardLinkImgs[card]} alt="${card}" />`);
     };
 
@@ -133,7 +133,7 @@ $(document).ready(function() {
     };
 
     //Update the score
-    const updateScore = (currentPlayer, card) => {
+    const updateScore = (currentPlayer, card) => { //code base on javascript tutorial from clever programmer
         if(currentPlayer.score <= 21) {
             if(card === 'A') {
                 if(currentPlayer.score + BlackjackGame.cardValues[card][1] <= 21) {
@@ -357,7 +357,7 @@ $(document).ready(function() {
                     dealerPlayer.matchStatus.addClass('blackjackPlayer');
                 };
 
-                await delay(1000);
+                await delay(1000); // codebase on javascript tutorial from clever programmer
             };
 
             (game.isSplitMode) ? getResultforSplitModeBust(dealerPlayer, true) : getResult();
@@ -368,14 +368,14 @@ $(document).ready(function() {
     dealButton.click(() => {
         if(game.turnIsOver && !game.isPlaying) {
             dealButton.prop('disabled', true);
-            const userImg = userPlayer.board.children('img');
+            const userImg = userPlayer.board.children('img'); // code base on jquery documentation
             const dealerImg = dealerPlayer.board.children('img');
 
-            for(let i = 0; i < userImg.length; i++) {
+            for(let i = 0; i < userImg.length; i++) { //code base on javascript tutorial clever programmer
                 userImg[i].remove();
             };
 
-            for(let i = 0; i < dealerImg.length; i++) {
+            for(let i = 0; i < dealerImg.length; i++) { //code base on javascript tutorial clever programmer
                 dealerImg[i].remove();
             };
 
@@ -401,7 +401,7 @@ $(document).ready(function() {
             if(game.isSplitMode) {
                 const userImg2 = userPlayer2.board.children('img');
 
-                for(let i = 0; i < userImg2.length; i++) {
+                for(let i = 0; i < userImg2.length; i++) { //code base on javascript tutorial clever programmer
                     userImg2[i].remove();
                 };
     

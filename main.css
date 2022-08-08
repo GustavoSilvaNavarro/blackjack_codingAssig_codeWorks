@@ -13,7 +13,7 @@
 }
 
 /* WELCOME SECTION */
-.welcomeContainer {
+.welcomeContainer { /*code base on w3school example */
     height: 100vh;
     background-image: url('https://res.cloudinary.com/dukuzakaw/image/upload/v1658923809/codeWorkAssigment/blackJackMain_jnzxde.webp');
     background-size: cover;
@@ -36,7 +36,7 @@
     background-image: url('https://res.cloudinary.com/dukuzakaw/image/upload/e_blur:100/v1658943621/codeWorkAssigment/deck_nzuydq.webp');
 }
 
-.cardContainer__shadow {
+.cardContainer__shadow { /*code base on w3school example */
     border-radius: 1rem;
     width: 100%;
     padding: 2rem;
@@ -76,7 +76,7 @@
     margin-bottom: 0.8rem;
 }
 
-.playerNameField > input[type="text"] {
+.playerNameField > input[type="text"] { /*code base on stackoverflow example */
     padding: 5px 2px;
     border: none;
     border-bottom: 1px solid #7f8c8d;
@@ -85,7 +85,7 @@
     caret-color: #0466c8;
     font-weight: bold;
     color: #024;
-    transition: border-bottom 400ms; /* taken from w3school website */
+    transition: border-bottom 400ms; /*code base on w3school example*/
 }
 
 .playerNameField > input::placeholder {
@@ -348,7 +348,7 @@
     font-weight: bold;
     border: 3px solid #03045e;
     background-color: rgba(2, 62, 138, 0.1);
-    box-shadow: 5px 10px 20px rgba(2, 62, 138, 0.2) inset;
+    box-shadow: 5px 10px 20px rgba(2, 62, 138, 0.2) inset; /*code base on w3school example */
 }
 
 .boardControllers__buttons--hit:hover {
@@ -365,7 +365,7 @@
     font-weight: bold;
     border: 3px solid #780000;
     background-color: rgba(193, 18, 31, 0.1);
-    box-shadow: 5px 10px 20px rgba(193, 18, 31, 0.2) inset;
+    box-shadow: 5px 10px 20px rgba(193, 18, 31, 0.2) inset; /*code base on w3school example */
 }
 
 .boardControllers__buttons--stand:hover {
@@ -382,7 +382,7 @@
     font-weight: bold;
     border: 3px solid #495057;
     background-color: rgba(173, 181, 189, 0.1);
-    box-shadow: 5px 10px 20px rgba(173, 181, 189, 0.2) inset;
+    box-shadow: 5px 10px 20px rgba(173, 181, 189, 0.2) inset; /*code base on w3school example */
 }
 
 .boardControllers__buttons--deal:hover {
@@ -400,7 +400,7 @@
     font-weight: bold;
     border: 3px solid #ffc300;
     background-color: rgba(255, 225, 76, 0.1);
-    box-shadow: 5px 10px 20px rgba(255, 225, 76, 0.2) inset;
+    box-shadow: 5px 10px 20px rgba(255, 225, 76, 0.2) inset; /*code base on w3school example */
 }
 
 .boardControllers__buttons--split:hover,
